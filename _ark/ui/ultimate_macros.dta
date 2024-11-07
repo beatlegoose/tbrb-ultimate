@@ -1,7 +1,363 @@
 #ifndef HX_WII
 #define INIT_DTA_READER
 (
-   {foreach $entry {read_file #ifdef HX_XBOX "GAME:/ulti_settings.dta" #endif #ifdef HX_PS3 #ifdef REGION_EUROPE "GD:/dev_hdd0/game/BLES00532/USRDIR/ulti_settings.dta" #else "GD:/dev_hdd0/game/BLUS30282/USRDIR/ulti_settings.dta" #endif #endif}
+   {foreach $entry {read_file $ulti_settings_path}
+      {if {== {elem $entry 0} {basename controller_settings}}
+         {if {find $entry pad_is_guitar}
+            {set $padtar
+               {elem {find $entry pad_is_guitar} 1}
+            }
+         }
+         {if {find $entry pad_is_drum}
+            {set $paddrum
+               {elem {find $entry pad_is_drum} 1}
+            }
+         }
+         {if {find $entry second_kick_mapping}
+            {set $secondkick
+               {elem {find $entry second_kick_mapping} 1}
+            }
+         }
+         {if {find $entry auto_kick}
+            {set $autokick
+               {elem {find $entry auto_kick} 1}
+            }
+         }
+         {if {find $entry force_instrument_dectection}
+            {set $force_inst_detec
+               {elem {find $entry force_instrument_dectection} 1}
+            }
+         }
+         {if {find $entry pad_binds}
+            {set $cnt_slot1
+               {elem {elem {find $entry pad_binds} 1} 0}
+            }
+            {set $cnt_slot2
+               {elem {elem {find $entry pad_binds} 1} 1}
+            }
+            {set $cnt_slot3
+               {elem {elem {find $entry pad_binds} 1} 2}
+            }
+            {set $cnt_slot4
+               {elem {elem {find $entry pad_binds} 1} 3}
+            }
+            {set $cnt_slot5
+               {elem {elem {find $entry pad_binds} 1} 4}
+            }
+            {set $cnt_star
+               {elem {elem {find $entry pad_binds} 1} 5}
+            }
+         }
+      }
+      {if {== {elem $entry 0} {basename gameplay_settings}}
+         {if {find $entry song_speed}
+            {set $speedmod
+               {elem {find $entry song_speed} 1}
+            }
+         }
+         {if {find $entry whammy_pitch_bending}
+            {set $whammypb
+               {elem {find $entry whammy_pitch_bending} 1}
+            }
+         }
+         {if {find $entry track_muting}
+            {set $trkmuting
+               {elem {find $entry track_muting} 1}
+            }
+         }
+         {if {find $entry disable_miss_sounds}
+            {set $nomisounds
+               {elem {find $entry disable_miss_sounds} 1}
+            }
+         }
+         {if {find $entry pad_is_guitar} ;legacy remove in 2.0 final
+            {set $padtar
+               {elem {find $entry pad_is_guitar} 1}
+            }
+         }
+         {if {find $entry pad_is_drum}  ;legacy remove in 2.0 final
+            {set $paddrum
+               {elem {find $entry pad_is_drum} 1}
+            }
+         }
+         {if {find $entry second_kick_mapping}  ;legacy remove in 2.0 final
+            {set $secondkick
+               {elem {find $entry second_kick_mapping} 1}
+            }
+         }
+         {if {find $entry mic_gain}
+            {set $mic_gain_1
+               {elem {elem {find $entry mic_gain} 1} 0}
+            }
+            {set $mic_gain_2
+               {elem {elem {find $entry mic_gain} 1} 1}
+            }
+            {set $mic_gain_3
+               {elem {elem {find $entry mic_gain} 1} 2}
+            }
+         }
+         {if {find $entry default_difficulties}
+            {set $default_diff0
+               {elem {elem {find $entry default_difficulties} 1} 0}
+            }
+            {set $default_diff1
+               {elem {elem {find $entry default_difficulties} 1} 1}
+            }
+            {set $default_diff2
+               {elem {elem {find $entry default_difficulties} 1} 2}
+            }
+            {set $default_diff3
+               {elem {elem {find $entry default_difficulties} 1} 3}
+            }
+         }
+      }
+      {if {== {elem $entry 0} {basename graphics_settings}}
+         {if {find $entry disable_all_post_fx}
+            {set $postfx
+               {elem {find $entry disable_all_post_fx} 1}
+            }
+         }
+         {if {find $entry black_bg}
+            {set $blackbg
+               {elem {find $entry black_bg} 1}
+            }
+         }
+         {if {find $entry camera_shake}
+            {set $camerashake
+               {elem {find $entry camera_shake} 1}
+            }
+         }
+         {if {find $entry bloom}
+            {set $scrbloom
+               {elem {find $entry bloom} 1}
+            }
+         }
+         {if {find $entry depth_of_field}
+            {set $fxdof
+               {elem {find $entry depth_of_field} 1}
+            }
+         }
+         {if {find $entry film_grain}
+            {set $scrnoise
+               {elem {find $entry film_grain} 1}
+            }
+         }
+         {if {find $entry motion_blur}
+            {set $mbblend
+               {elem {find $entry motion_blur} 1}
+            }
+         }
+         {if {find $entry force_high_lod}
+            {set $forcelod0
+               {elem {find $entry force_high_lod} 1}
+            }
+         }
+         {if {find $entry venue_fps}
+            {set $emulatefps
+               {elem {find $entry venue_fps} 1}
+            }
+         }
+         {if {find $entry vsync_rate}
+            {set $vsyncrate
+               {elem {find $entry vsync_rate} 1}
+            }
+         }
+      }
+      {if {== {elem $entry 0} {basename track_settings}}
+         {if {find $entry track_speed}
+            {set $trackspeed
+               {elem {find $entry track_speed} 1}
+            }
+         }
+         {if {find $entry highway_length}
+            {set $hwlength
+               {elem {find $entry highway_length} 1}
+            }
+         }
+         {if {find $entry sync_difficulty_speeds}
+            {set $syncdifspeeds
+               {elem {find $entry sync_difficulty_speeds} 1}
+            }
+         }
+         {if {find $entry show_fc_ring}
+            {set $fcring
+               {elem {find $entry show_fc_ring} 1}
+            }
+         }
+         {if {find $entry legacy_bass_streak}
+            {set $legacybass
+               {elem {find $entry legacy_bass_streak} 1}
+            }
+         }
+         {if {find $entry note_color_shuffle}
+            {set $colorshuffle
+               {elem {find $entry note_color_shuffle} 1}
+            }
+         }
+         {if {find $entry guitar_gem_colors}
+            {set $gtrgem1
+               {elem {elem {find $entry guitar_gem_colors} 1} 0}
+            }
+            {set $gtrgem2
+               {elem {elem {find $entry guitar_gem_colors} 1} 1}
+            }
+            {set $gtrgem3
+               {elem {elem {find $entry guitar_gem_colors} 1} 2}
+            }
+            {set $gtrgem4
+               {elem {elem {find $entry guitar_gem_colors} 1} 3}
+            }
+            {set $gtrgem5
+               {elem {elem {find $entry guitar_gem_colors} 1} 4}
+            }
+         }
+         {if {find $entry guitar_smasher_colors}
+            {set $gtrsm1
+               {elem {elem {find $entry guitar_smasher_colors} 1} 0}
+            }
+            {set $gtrsm2
+               {elem {elem {find $entry guitar_smasher_colors} 1} 1}
+            }
+            {set $gtrsm3
+               {elem {elem {find $entry guitar_smasher_colors} 1} 2}
+            }
+            {set $gtrsm4
+               {elem {elem {find $entry guitar_smasher_colors} 1} 3}
+            }
+            {set $gtrsm5
+               {elem {elem {find $entry guitar_smasher_colors} 1} 4}
+            }
+         }
+         {if {find $entry guitar_sustain_colors}
+            {set $gtrsus1
+               {elem {elem {find $entry guitar_sustain_colors} 1} 0}
+            }
+            {set $gtrsus2
+               {elem {elem {find $entry guitar_sustain_colors} 1} 1}
+            }
+            {set $gtrsus3
+               {elem {elem {find $entry guitar_sustain_colors} 1} 2}
+            }
+            {set $gtrsus4
+               {elem {elem {find $entry guitar_sustain_colors} 1} 3}
+            }
+            {set $gtrsus5
+               {elem {elem {find $entry guitar_sustain_colors} 1} 4}
+            }
+         }
+         {if {find $entry drum_gem_colors}
+            {set $drmgem1
+               {elem {elem {find $entry drum_gem_colors} 1} 0}
+            }
+            {set $drmgem2
+               {elem {elem {find $entry drum_gem_colors} 1} 1}
+            }
+            {set $drmgem3
+               {elem {elem {find $entry drum_gem_colors} 1} 2}
+            }
+            {set $drmgem4
+               {elem {elem {find $entry drum_gem_colors} 1} 3}
+            }
+            {set $drmgem5
+               {elem {elem {find $entry drum_gem_colors} 1} 4}
+            }
+         }
+         {if {find $entry drum_smasher_colors}
+            {set $drms1
+               {elem {elem {find $entry drum_smasher_colors} 1} 0}
+            }
+            {set $drms2
+               {elem {elem {find $entry drum_smasher_colors} 1} 1}
+            }
+            {set $drms3
+               {elem {elem {find $entry drum_smasher_colors} 1} 2}
+            }
+            {set $drms4
+               {elem {elem {find $entry drum_smasher_colors} 1} 3}
+            }
+         }
+      }
+      {if {== {elem $entry 0} {basename track_textures}}
+         {if {find $entry highway_texture}
+            {set $highway
+               {elem {find $entry highway_texture} 1}
+            }
+         }
+         {if {find $entry streak_texture}
+            {set $streak
+               {elem {find $entry streak_texture} 1}
+            }
+         }
+         {if {find $entry spotlight_texture}
+            {set $spotlight
+               {elem {find $entry spotlight_texture} 1}
+            }
+         }
+      }
+      {if {== {elem $entry 0} {basename ui_settings}}
+         {if {find $entry disable_net_warnings}
+            {set $skipnetwarning
+               {elem {find $entry disable_net_warnings} 1}
+            }
+         }
+         {if {find $entry show_song_author}
+            {set $showauthor
+               {elem {find $entry show_song_author} 1}
+            }
+         }
+         {if {find $entry skip_intro_video}
+            {set $skipintro
+               {elem {find $entry skip_intro_video} 1}
+            }
+         }
+         {if {find $entry skip_splash_screen}
+            {set $skipsplash
+               {elem {find $entry skip_splash_screen} 1}
+            }
+         }
+         {if {find $entry song_title_always}
+            {set $songtitle
+               {elem {find $entry song_title_always} 1}
+            }
+         }
+      }
+      {if {== {elem $entry 0} {basename venue_settings}}
+         {if {find $entry force_outfits}
+            {set $forceoutfit
+               {elem {find $entry force_outfits} 1}
+            }
+         }
+         {if {find $entry force_venue}
+            {set $forcevenue
+               {elem {find $entry force_venue} 1}
+            }
+         }
+         {if {find $entry force_minivenue}
+            {set $forceminivenue
+               {elem {find $entry force_minivenue} 1}
+            }
+         }
+         {if {find $entry force_scene}
+            {set $forcescene
+               {elem {find $entry force_scene} 1}
+            }
+         }
+         {if {find $entry random_venue}
+            {set $randomvenue
+               {elem {find $entry random_venue} 1}
+            }
+         }
+         {if {find $entry random_outfits}
+            {set $randomoutfit
+               {elem {find $entry random_outfits} 1}
+            }
+         }
+      }
+   }
+)
+#define CONVERT_SETTINGS
+(
+   {foreach $entry {read_file $orig_ulti_settings_path}
       {if {== {elem $entry 0} {basename track_speed}}
          {set $trackspeed
             {elem {find $entry track_speed} 1}
@@ -20,11 +376,6 @@
       {if {== {elem $entry 0} {basename black_bg}}
          {set $blackbg
             {elem {find $entry black_bg} 1}
-         }
-      }
-      {if {== {elem $entry 0} {basename postfx}}
-         {set $postfx
-            {elem {find $entry postfx} 1}
          }
       }
       {if {== {elem $entry 0} {basename highway_texture}}
@@ -264,16 +615,6 @@
             {elem {find $entry vsync_rate} 1}
          }
       }
-      {if {== {elem $entry 0} {basename disable_dof}}
-         {set $fxdof
-            {elem {find $entry disable_dof} 1}
-         }
-      }
-      {if {== {elem $entry 0} {basename high_lod}}
-         {set $forcelod0
-            {elem {find $entry high_lod} 1}
-         }
-      }
       {if {== {elem $entry 0} {basename disable_net_warnings}}
          {set $skipnetwarning
             {elem {find $entry disable_net_warnings} 1}
@@ -289,26 +630,13 @@
             {elem {find $entry second_kick_mapping} 1}
          }
       }
-      {if {== {elem $entry 0} {basename disable_film_grain}}
-         {set $scrnoise
-            {elem {find $entry disable_film_grain} 1}
-         }
-      }
-      {if {== {elem $entry 0} {basename disable_bloom}}
-         {set $scrbloom
-            {elem {find $entry disable_bloom} 1}
-         }
-      }
-      {if {== {elem $entry 0} {basename disable_motion_blur}}
-         {set $mbblend
-            {elem {find $entry disable_motion_blur} 1}
-         }
-      }
-      {if {== {elem $entry 0} {basename disable_miss_sounds}}
-         {set $nomisounds
-            {elem {find $entry disable_miss_sounds} 1}
-         }
-      }
+   }
+   {script_task
+      kTaskSeconds
+      (delay 7)
+      (script
+         {init_dta_writer}
+         {passive_messages_panel queue_message converted_settings})
    }
 )
 
@@ -439,61 +767,60 @@
          }
    }
 )
-#define OVERSHELL_DISALLOWED_SCREENS ;find a better way of doing this
+#define OVERSHELL_DISALLOWED_SCREENS ;better way of doing this found thx rb1 :3
 (
-   {'||'
-      $overshell_up
-      {== {ui current_screen} game_screen}
-      {== {ui current_screen} song_select_screen}
-      {== {ui current_screen} hth_game_screen}
-      {== {ui current_screen} overshell_main_screen}
-      {== {ui current_screen} options_milo_screen}
-      {== {ui current_screen} qp_seldiff_screen}
-      {== {ui current_screen} story_chapter_seldiff_screen}
-      {== {ui current_screen} story_chapterchallenge_seldiff_screen}
-      {== {ui current_screen} h2h_seldiff_screen}
-      {== {ui current_screen} overshell_visual_screen}
-      {== {ui current_screen} practice_game_screen}
-      {== {ui current_screen} matchmaking_screen}
-      {== {ui current_screen} load_nextsong_screen}
-      {== {ui current_screen} nextstats_screen}
-      {== {ui current_screen} guitar_tutorial_screen}
-      {== {ui current_screen} sync_audio_net_screen}
-      {== {ui current_screen} main_popup_swapper}
-      {== {ui current_screen} practice_loading_screen}
-      {== {ui current_screen} meta_loading_pause_new_section_screen}
-      {== {ui current_screen} tutorial_level_menu_screen}
-      {== {ui current_screen} restart_sync_audio_net_screen}
-      {== {ui current_screen} meta_loading_main_screen}
-      {== {ui current_screen} meta_loading_pause_new_song_screen}
-      {== {ui current_screen} confirm_quit_screen}
-      {== {ui current_screen} save_screen}
-      {== {ui current_screen} story_chapter_songselect_screen}
-      {== {ui current_screen} story_chapter_screen}
-      {== {ui current_screen} story_progress_confirm_progress_delete_screen}
-      {== {ui current_screen} story_accomplishments_screen}
-      {== {ui current_screen} story_prizes_screen}
-      {== {ui current_screen} story_memorabilia_screen}
-      {== {ui current_screen} story_chaptermovie_screen}
-      {== {ui current_screen} story_chaptermovie_screen}
-      {== {ui current_screen} story_progress_sel_screen}
-      {== {ui current_screen} story_hub_screen}
-      {== {ui current_screen} real_loading_screen}
-      {== {ui current_screen} practice_sel_section_screen}
-      {== {ui current_screen} network_start_screen}
-      {== {ui current_screen} meta_loading_uisink_lost_connection_screen} 
-      {== {ui current_screen} story_retry_screen}
-      {== {ui current_screen} practice_vocal_end_screen}
-      {== {ui current_screen} lose_screen}
-      {== {ui current_screen} endgame_waiting_screen} 
-      {== {ui current_screen} coop_endgame_screen}
-      {== {ui current_screen} tow_endgame_screen}
-      {== {ui current_screen} score_duel_endgame_screen}
-      {== {ui current_screen} nextsong_screen}
-      {== {ui current_screen} lose_confirm_quit_screen}
-      {== {ui current_screen} complete_screen}
-      {== {ui current_screen} complete_accomplishments_screen}
-   }
+   (
+      game_screen
+      song_select_screen
+      hth_game_screen
+      overshell_main_screen
+      options_milo_screen
+      qp_seldiff_screen
+      story_chapter_seldiff_screen
+      story_chapterchallenge_seldiff_screen
+      h2h_seldiff_screen
+      overshell_visual_screen
+      practice_game_screen
+      matchmaking_screen
+      load_nextsong_screen
+      nextstats_screen
+      guitar_tutorial_screen
+      sync_audio_net_screen
+      main_popup_swapper
+      practice_loading_screen
+      meta_loading_pause_new_section_screen
+      tutorial_level_menu_screen
+      restart_sync_audio_net_screen
+      meta_loading_main_screen
+      meta_loading_pause_new_song_screen
+      confirm_quit_screen
+      save_screen
+      story_chapter_songselect_screen
+      story_chapter_screen
+      story_progress_confirm_progress_delete_screen
+      story_accomplishments_screen
+      story_prizes_screen
+      story_memorabilia_screen
+      story_chaptermovie_screen
+      story_chaptermovie_screen
+      story_progress_sel_screen
+      story_hub_screen
+      real_loading_screen
+      practice_sel_section_screen
+      network_start_screen
+      meta_loading_uisink_lost_connection_screen 
+      story_retry_screen
+      practice_vocal_end_screen
+      lose_screen
+      endgame_waiting_screen 
+      coop_endgame_screen
+      tow_endgame_screen
+      score_duel_endgame_screen
+      nextsong_screen
+      lose_confirm_quit_screen
+      complete_screen
+      complete_accomplishments_screen
+   )
 )
 #define SONG_AUTHOR_INFO
 (
@@ -534,6 +861,24 @@
                   {set $author_text {sprint " | Author: " $authorvar}}
                   {do
                      {set $song_dta_path {sprint {song_mgr song_path {symbol $songvar}} "/../../songs.dta"}}
+                     #ifdef HX_PS3 ;hard code some stuff here because ps3 hw is trash. good thing people use a terrible method for adding customs. causes a slight stutter so should probably find elsewhere to do this
+                     {unless
+                        {&& 
+                           {file_exists $song_dta_path} 
+                           {'||' 
+                              {== {gamemode in_mode} qp_coop_online}
+                              {== {gamemode in_mode} story_online}
+                              {== {gamemode in_mode} h2h_score_duel_unranked}
+                              {== {gamemode in_mode} h2h_tug_of_war_unranked}
+                           }
+                        }
+                        #ifdef REGION_EUROPE
+                        {set $song_dta_path "GD:/dev_hdd0/game/BLES00532/USRDIR/CCF0001/songs/songs.dta"}
+                        #else
+                        {set $song_dta_path "GD:/dev_hdd0/game/BLUS30282/USRDIR/CCF0001/songs/songs.dta"} 
+                        #endif
+                     }
+                     #endif
                      {unless
                         {file_exists $song_dta_path}
                         {set $song_dta_path FALSE}

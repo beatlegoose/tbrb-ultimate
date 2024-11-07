@@ -53,13 +53,10 @@
          set_showing
          TRUE}
       {meta_performer disband_if_bad_configuration}
-      #ifndef HX_XBOX
+      ;#ifndef HX_XBOX
       {set $outro_ran FALSE}
-	  {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
-      {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
-	  {set $drum_groove_active FALSE}
-	  {set $guitar_groove_active FALSE}
-     #endif
+      {reset_fc_vars}
+     ;#endif
 	 {world_panel set_showing {! $blackbg}}
      {if $blackbg {$world iterate PostProc $p {$p set emulate_fps 1}}}
       #ifdef HX_WII
@@ -84,13 +81,10 @@
                ($this intro_end)})}
       kDataUnhandled)
    (intro_skip
-      #ifndef HX_XBOX
+      ;#ifndef HX_XBOX
       {set $outro_ran FALSE}
-      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
-      {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
-	  {set $drum_groove_active FALSE}
-	  {set $guitar_groove_active FALSE}
-     #endif
+      {reset_fc_vars}
+     ;#endif
      {world_panel set_showing {! $blackbg}}
      {if $blackbg {$world iterate PostProc $p {$p set emulate_fps 1}}}
       #ifdef HX_WII
@@ -101,13 +95,10 @@
          TRUE}
       kDataUnhandled)
    (music_start
-      #ifndef HX_XBOX
+      ;#ifndef HX_XBOX
       {set $outro_ran FALSE}
-      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
-      {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
-	  {set $drum_groove_active FALSE}
-	  {set $guitar_groove_active FALSE}
-     #endif
+      {reset_fc_vars}
+     ;#endif
       {ui music_start}
       kDataUnhandled)
    (beat
@@ -129,13 +120,10 @@
                      {elem $levels $ex})}}}}
       kDataUnhandled)
    (game_over
-      #ifndef HX_XBOX
+      ;#ifndef HX_XBOX
       {set $outro_ran FALSE}
-      {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
-      {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
-	  {set $drum_groove_active FALSE}
-	  {set $guitar_groove_active FALSE}
-     #endif
+      {reset_fc_vars}
+     ;#endif
       #ifndef HX_WII
       {stagekit_reset}
       #endif
@@ -195,10 +183,7 @@
       {unless ; i dunno how i feel about this it's kinda hacky so maybe look into a less hacky way to prevent it running twice
          $outro_ran
          {set $outro_ran TRUE}
-         {set $guitar_milosong FALSE} {set $bass_milosong FALSE} {set $drum_milosong FALSE}
-         {set $bass_groove_active FALSE} {set $bass_firstnote FALSE} {set $guitar_firstnote FALSE} {set $drum_firstnote FALSE}
-   	  {set $drum_groove_active FALSE}
-   	  {set $guitar_groove_active FALSE}
+         {reset_fc_vars}
          {beatmatch
             foreach_active_player
             $p
@@ -274,28 +259,30 @@
       {if {'||' {gamemode in_mode theatre} {gamemode in_mode autoplay_mode}} {do {beatmatch foreach_active_player $player {$player set_auto_play enable}}}}
       {$world iterate PostProc $p 
          {$p set emulate_fps $emulatefps}
-         {$p set noise_intensity {if_else $scrnoise 0 #ifdef HX_WII 0.25 #else 0.5 #endif}} ;this val is (likely) wrong as i had to guess it as i couldnt find it anywhere
+         {$p set noise_intensity {if_else $scrnoise #ifdef HX_WII 0.25 #else 0.5 #endif 0}} ;this val is (likely) wrong as i had to guess it as i couldnt find it anywhere
          #ifndef HX_WII ;wii doesn't have motion blur (citation needed)
          {unless $mbblend
             {$p set motion_blur_blend 0}
             {$p set motion_blur_weight 0}
          }
          #endif
-         {$p set bloom_intensity {if_else $scrbloom 0 0.5}} ;estimated from wii
+         {$p set bloom_intensity {if_else $scrbloom 0.5 0}} ;estimated from wii
       }
       {$world iterate WorldDir $wd {$wd iterate BandCamShot $bcs 
-         {if $fxdof {$bcs set use_depth_of_field FALSE}}
+         {unless $fxdof {$bcs set use_depth_of_field FALSE}}
          #ifndef HX_WII ;this crashes wii
          {if $forcelod0
             {foreach_int $i 0 {$bcs size (targets)}
                {$bcs set (targets $i force_lod) kLOD0}}}
          #endif
-         {if {>= {$emulatefps 31}
+         {unless $camerashake
             {foreach_int $i 0 {$bcs size (keyframes)}
-               {$bcs set (keyframes $i shake_noisefreq) {'*' {$bcs get (keyframes $i shake_noisefreq)} 0.25}}
-               {$bcs set (keyframes $i shake_noiseamp) {'*' {$bcs get (keyframes $i shake_noiseamp)} 0.25}}
-               {$bcs set (keyframes $i shake_maxangle x) {'*' {$bcs get (keyframes $i shake_maxangle x)} 0.25}}
-               {$bcs set (keyframes $i shake_maxangle y) {'*' {$bcs get (keyframes $i shake_maxangle y)} 0.25}}}}}}}
+               {$bcs set (keyframes $i shake_noisefreq) {'*' {$bcs get (keyframes $i shake_noisefreq)} 0}}
+               {$bcs set (keyframes $i shake_noiseamp) {'*' {$bcs get (keyframes $i shake_noiseamp)} 0}}
+               {$bcs set (keyframes $i shake_maxangle x) {'*' {$bcs get (keyframes $i shake_maxangle x)} 0}}
+               {$bcs set (keyframes $i shake_maxangle y) {'*' {$bcs get (keyframes $i shake_maxangle y)} 0}}}}}}
+      {unless {gamemode get online_play_required}
+         {beatmatch set_kick_autoplay $autokick}}
       {$this set_showing TRUE}
       {set
          [delayed_mic_check]

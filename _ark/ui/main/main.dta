@@ -1,191 +1,3 @@
-#ifndef HX_WII
-#define INIT_DTA_WRITER
-(
-   {write_file #ifdef HX_XBOX "GAME:/ulti_settings.dta" #endif #ifdef HX_PS3 #ifdef REGION_EUROPE "GD:/dev_hdd0/game/BLES00532/USRDIR/ulti_settings.dta" #else "GD:/dev_hdd0/game/BLUS30282/USRDIR/ulti_settings.dta" #endif #endif
-      {array
-        (
-            (track_speed
-               (track_speed $trackspeed)
-            )
-            (song_speed
-               (song_speed $speedmod)
-            )
-            (emulate_fps
-               (emulate_fps $emulatefps)
-            )
-            (black_bg
-               (black_bg $blackbg)
-            )
-            (postfx
-               (postfx $postfx)
-            )
-            (song_title_always
-               (song_title_always $songtitle)
-            )
-            (highway_texture
-               (highway_texture $highway)
-            )
-            (streak_texture
-               (streak_texture $streak)
-            )
-            (spotlight_texture
-               (spotlight_texture $spotlight)
-            )
-            (whammypb
-               (whammypb $whammypb)
-            )
-            (syncdifspeeds
-               (syncdifspeeds $syncdifspeeds)
-            )
-            (legacybass
-               (legacybass $legacybass)
-            )
-            (forceoutfit
-               (forceoutfit $forceoutfit)
-            )
-            (forcevenue
-               (forcevenue $forcevenue)
-            )
-            (forceminivenue
-               (forceminivenue $forceminivenue)
-            )
-            (forcescene
-               (forcescene $forcescene)
-            )
-            (gtr_gem1
-               (gtr_gem1 $gtrgem1)
-            )
-            (gtr_gem2
-               (gtr_gem2 $gtrgem2)
-            )
-            (gtr_gem3
-               (gtr_gem3 $gtrgem3)
-            )
-            (gtr_gem4
-               (gtr_gem4 $gtrgem4)
-            )
-            (gtr_gem5
-               (gtr_gem5 $gtrgem5)
-            )
-            (drm_gem1
-               (drm_gem1 $drmgem1)
-            )
-            (drm_gem2
-               (drm_gem2 $drmgem2)
-            )
-            (drm_gem3
-               (drm_gem3 $drmgem3)
-            )
-            (drm_gem4
-               (drm_gem4 $drmgem4)
-            )
-            (drm_gem5
-               (drm_gem5 $drmgem5)
-            )
-            (gtrsm1
-               (gtrsm1 $gtrsm1)
-            )
-            (gtrsm2
-               (gtrsm2 $gtrsm2)
-            )
-            (gtrsm3
-               (gtrsm3 $gtrsm3)
-            )
-            (gtrsm4
-               (gtrsm4 $gtrsm4)
-            )
-            (gtrsm5
-               (gtrsm5 $gtrsm5)
-            )
-            (gtr_sus1
-               (gtr_sus1 $gtrsus1)
-            )
-            (gtr_sus2
-               (gtr_sus2 $gtrsus2)
-            )
-            (gtr_sus3
-               (gtr_sus3 $gtrsus3)
-            )
-            (gtr_sus4
-               (gtr_sus4 $gtrsus4)
-            )
-            (gtr_sus5
-               (gtr_sus5 $gtrsus5)
-            )
-            (drms1
-               (drms1 $drms1)
-            )
-            (drms2
-               (drms2 $drms2)
-            )
-            (drms3
-               (drms3 $drms3)
-            )
-            (drms4
-               (drms4 $drms4)
-            )
-            (skipsplash
-               (skipsplash $skipsplash)
-            )
-            (skipintro
-               (skipintro $skipintro)
-            )
-            (padtar
-               (padtar $padtar)
-            )
-            (paddrum
-               (paddrum $paddrum)
-            )
-            (colorshuffle
-               (colorshuffle $colorshuffle)
-            )
-            (randomvenue
-               (randomvenue $randomvenue)
-            )
-            (randomoutfit
-               (randomoutfit $randomoutfit)
-            )
-            (mic_gain
-               (mic_gain ({profile_mgr get_mic_gain 0} {profile_mgr get_mic_gain 1} {profile_mgr get_mic_gain 2}))
-            )
-            (default_difficulties
-               (default_difficulties ($default_diff0 $default_diff1 $default_diff2 $default_diff3))
-            )
-            (vsync_rate
-               (vsync_rate $vsyncrate)
-            )
-            (disable_dof
-               (disable_dof $fxdof)
-            )
-            (high_lod
-               (high_lod $forcelod0)
-            )
-            (disable_net_warnings
-               (disable_net_warnings $skipnetwarning)
-            )
-            (show_song_author
-               (show_song_author $showauthor)
-            )
-            (second_kick_mapping
-               (second_kick_mapping $secondkick)
-            )
-            (disable_film_grain
-               (disable_film_grain $scrnoise)
-            )
-            (disable_bloom
-               (disable_bloom $scrbloom)
-            )
-            (disable_motion_blur
-               (disable_motion_blur $mbblend)
-            )
-            (disable_miss_sounds
-               (disable_miss_sounds $nomisounds)
-            )
-         )
-      }
-   }
-)
-#endif
 {new
    UIPanel
    main_panel
@@ -217,7 +29,8 @@
       #endif
       {gamemode set_mode init}
       {$this update_motd}
-      {meta music_start})
+      {meta music_start}
+      {set_cnt_mapping}) ;didn't work setting in init
    (exit
       {platform_mgr remove_sink $this connection_status_changed}
       {server remove_sink $this server_status_changed})
@@ -463,10 +276,10 @@
          $name
          (mod_info_button
             {ui push_screen mod_info_screen})
-         (force_instrument_info_button
-            {ui push_screen force_instrument_info_screen})
-         (album_art_info_button
-            {ui push_screen album_art_info_screen})
+         ;(force_instrument_info_button
+         ;   {ui push_screen force_instrument_info_screen})
+         ;(album_art_info_button
+         ;   {ui push_screen album_art_info_screen})
          (overshell
             {passive_messages_panel queue_message overshell_info}
             {set $modifier_exit {ui current_screen}}
@@ -477,15 +290,15 @@
          ;    {pp_override})
          (theatre
             {gamemode set_mode theatre}
-            {goto_after_network_connect matchmaking_screen FALSE})
+            {ui goto_screen matchmaking_screen})
          (theatre_info_button
             {ui push_screen theatre_info_screen})
          (autoplay
             {gamemode set_mode autoplay_mode}
-            {goto_after_network_connect matchmaking_screen FALSE})
-         (enable_whammy
-             {set whammy_enabled TRUE}
-             {ui push_screen reset_info_screen})
+            {ui goto_screen matchmaking_screen})
+         ;(enable_whammy
+         ;    {set whammy_enabled TRUE}
+         ;    {ui push_screen reset_info_screen})
          ;(disable_whammy
          ;    {set whammy_enabled FALSE})
          (go_to_frs
@@ -499,48 +312,54 @@
          ;    {set autosave FALSE} ;dw about this silly line it dont do nothin
          ;    ;{{$this find icons_story.tex} set_bitmap {sprint "ui/track/textures/icons_story.png"}}
          ;    {set $autoplay TRUE})
-         (force_guitar
-            {set $padtar FALSE}
-            {set $paddrum FALSE}
-            #ifdef HX_PS3
-            {set_elem {find $syscfg joypad instrument_mapping dualshock} 1 kControllerGuitar}
-            {set_elem {find $syscfg joypad controller_mapping dualshock} 1 hx_guitar_ps3}
-            {set_elem {find $syscfg joypad instrument_mapping analog} 1 kControllerGuitar}
-            {set_elem {find $syscfg joypad controller_mapping analog} 1 hx_guitar_ps3}
-            #else
-            {set_elem {find $syscfg joypad instrument_mapping analog} 1 kControllerGuitar}
-            {set_elem {find $syscfg joypad controller_mapping analog} 1 ro_guitar_xbox}
-            #endif
-            )
-         (force_drums
-            {set $padtar FALSE}
-            {set $paddrum FALSE}
-            #ifdef HX_PS3
-            {set_elem {find $syscfg joypad instrument_mapping dualshock} 1 kControllerDrum}
-            {set_elem {find $syscfg joypad controller_mapping dualshock} 1 hx_drums_ps3}
-            {set_elem {find $syscfg joypad instrument_mapping analog} 1 kControllerGuitar}
-            {set_elem {find $syscfg joypad controller_mapping analog} 1 hx_drums_ps3}
-            #else
-            {set_elem {find $syscfg joypad instrument_mapping analog} 1 kControllerDrum}
-            {set_elem {find $syscfg joypad controller_mapping analog} 1 hx_drums_xbox}
-            #endif
-            )
-         (force_dolpadtar
-            {set_elem {find $syscfg joypad instrument_mapping wii_rodrums} 1 kControllerGuitar})
-         (force_reset
-            #ifdef HX_WII
-            {set_elem {find $syscfg joypad instrument_mapping wii_rodrums} 1 kControllerDrum}
-            #else
-            {set $padtar FALSE}
-            {set $paddrum FALSE}
-            #ifdef HX_PS3
-            {set_elem {find $syscfg joypad instrument_mapping dualshock} 1 kControllerVocals}
-            {set_elem {find $syscfg joypad controller_mapping dualshock} 1 joypad}
-            #endif
-            {set_elem {find $syscfg joypad instrument_mapping analog} 1 kControllerVocals}
-            {set_elem {find $syscfg joypad controller_mapping analog} 1 joypad}
-            #endif
-            )
+         ;(force_guitar
+         ;   {set $padtar FALSE}
+         ;   {set $paddrum FALSE}
+         ;   #ifdef HX_PS3
+         ;   {set_elem {find $syscfg joypad instrument_mapping dualshock} 1 kControllerGuitar}
+         ;   {set_elem {find $syscfg joypad controller_mapping dualshock} 1 hx_guitar_ps3}
+         ;   {set_elem {find $syscfg joypad instrument_mapping analog} 1 kControllerGuitar}
+         ;   {set_elem {find $syscfg joypad controller_mapping analog} 1 hx_guitar_ps3}
+         ;   #else
+         ;   {set_elem {find $syscfg joypad instrument_mapping analog} 1 kControllerGuitar}
+         ;   {set_elem {find $syscfg joypad controller_mapping analog} 1 ro_guitar_xbox}
+         ;   #endif
+         ;   )
+         ;(force_drums
+         ;   {set $padtar FALSE}
+         ;   {set $paddrum FALSE}
+         ;   #ifdef HX_PS3
+         ;   {set_elem {find $syscfg joypad instrument_mapping dualshock} 1 kControllerDrum}
+         ;   {set_elem {find $syscfg joypad controller_mapping dualshock} 1 hx_drums_ps3}
+         ;   {set_elem {find $syscfg joypad instrument_mapping analog} 1 kControllerGuitar}
+         ;   {set_elem {find $syscfg joypad controller_mapping analog} 1 hx_drums_ps3}
+         ;   #else
+         ;   {set_elem {find $syscfg joypad instrument_mapping analog} 1 kControllerDrum}
+         ;   {set_elem {find $syscfg joypad controller_mapping analog} 1 hx_drums_xbox}
+         ;   #endif
+         ;   )
+         ;(force_dolpadtar
+         ;   {set_elem {find $syscfg joypad instrument_mapping wii_rodrums} 1 kControllerGuitar})
+         ;(force_reset
+         ;   #ifdef HX_WII
+         ;   {set_elem {find $syscfg joypad instrument_mapping wii_rodrums} 1 kControllerDrum}
+         ;   #else
+         ;   {set $padtar FALSE}
+         ;   {set $paddrum FALSE}
+         ;   #ifdef HX_PS3
+         ;   {set_elem {find $syscfg joypad instrument_mapping dualshock} 1 kControllerVocals}
+         ;   {set_elem {find $syscfg joypad controller_mapping dualshock} 1 joypad}
+         ;   #endif
+         ;   {set_elem {find $syscfg joypad instrument_mapping analog} 1 kControllerVocals}
+         ;   {set_elem {find $syscfg joypad controller_mapping analog} 1 joypad}
+         ;   #endif
+         ;   )
+         (friendly_scoreduel_local
+            {gamemode set_mode h2h_score_duel_friendly}
+            {ui goto_screen matchmaking_screen})
+         (friendly_scoreduel_online
+            {gamemode set_mode h2h_score_duel_friendly_online}
+            {goto_after_network_connect matchmaking_screen FALSE})
          (qp_local
             {gamemode set_mode qp_coop_local}
             {goto_after_network_connect matchmaking_screen FALSE})
@@ -1172,6 +991,7 @@
          (cancel helpbar_back)))
    (last_focus FALSE)
    (enter
+      {set $os_igc FALSE}
       {if
          {&&
             {== $this main_screen}
