@@ -3,6 +3,13 @@ set "ISO_FOLDER=%cd%\iso"
 set "ULTIMATE_FILES_FOLDER=%cd%\ultimate_files"
 set "WIT_EXECUTABLE=%cd%\wit\wit.exe"
 
+if not exist _temp (
+    mkdir _temp
+    echo _temp folder created.
+) else (
+    echo WARNING! _temp folder already exists.
+)
+
 if not exist "%ISO_FOLDER%" (
     echo ISO folder not found.
     exit /b 1

@@ -1,75 +1,49 @@
+#ifdef HX_WII
+#include ulti_settings_rw_wii.dta
+#else
+#include ulti_settings_rw.dta
+#endif
 {func
-   init_dta_writer
-   {write_file $ulti_settings_path
-      {array
-         (
-            (controller_settings
-               (pad_is_guitar $padtar)
-               (pad_is_drum $paddrum)
-               (second_kick_mapping $secondkick)
-               (auto_kick $autokick)
-               (force_instrument_dectection $force_inst_detec)
-               (pad_binds ($cnt_slot1 $cnt_slot2 $cnt_slot3 $cnt_slot4 $cnt_slot5 $cnt_star))
-            )
-            (gameplay_settings
-               (song_speed $speedmod)
-               (whammy_pitch_bending $whammypb)
-               (track_muting $trkmuting)
-               (disable_miss_sounds $nomisounds)
-               (mic_gain ({profile_mgr get_mic_gain 0} {profile_mgr get_mic_gain 1} {profile_mgr get_mic_gain 2}))
-               (default_difficulties ($default_diff0 $default_diff1 $default_diff2 $default_diff3))
-            )
-            (graphics_settings
-               (disable_all_post_fx $postfx)
-               (black_bg $blackbg)
-               (bloom $scrbloom)
-               (camera_shake $camerashake)
-               (depth_of_field $fxdof)
-               (film_grain $scrnoise)
-               (motion_blur $mbblend)
-               (force_high_lod $forcelod0)
-               (venue_fps $emulatefps)
-               (vsync_rate $vsyncrate)
-            )
-            (track_settings
-               (track_speed $trackspeed)
-               (highway_length $hwlength)
-               (sync_difficulty_speeds $syncdifspeeds)
-               (show_fc_ring $fcring)
-               (legacy_bass_streak $legacybass)
-               (note_color_shuffle $colorshuffle)
-               (guitar_gem_colors ($gtrgem1 $gtrgem2 $gtrgem3 $gtrgem4 $gtrgem5))
-               (guitar_smasher_colors ($gtrsm1 $gtrsm2 $gtrsm3 $gtrsm4 $gtrsm5))
-               (guitar_sustain_colors ($gtrsus1 $gtrsus2 $gtrsus3 $gtrsus4 $gtrsus5))
-               (drum_gem_colors ($drmgem1 $drmgem2 $drmgem3 $drmgem4 $drmgem5))
-               (drum_smasher_colors ($drms1 $drms2 $drms3 $drms4))
-            )
-            (track_textures
-               (highway_texture $highway)
-               (streak_texture $streak)
-               (spotlight_texture $spotlight)
-            )
-            (ui_settings
-               (disable_net_warnings $skipnetwarning)
-               (show_song_author $showauthor)
-               (skip_intro_video $skipintro)
-               (skip_splash_screen $skipsplash)
-               (song_title_always $songtitle)
-               (disable_trophies $lie)
-               (disable_saving $lie)
-            )
-            (venue_settings
-               (force_outfits $forceoutfit)
-               (force_venue $forcevenue)
-               (force_minivenue $forceminivenue)
-               (force_scene $forcescene)
-               (random_venue $randomvenue)
-               (random_outfits $randomoutfit)
-            )
-         )
-      }
-   }
-}
+   modifier_funcs
+   {if $postfx
+      #ifdef HX_WII {pp_override} #else {rnd toggle_all_postprocs} #endif}
+   {if $padtar
+      #ifdef HX_PS3
+      {set_cnt_type dualshock kControllerGuitar}
+      #endif
+      #ifdef HX_WII
+      {set_cnt_type wii_remote kControllerGuitar}
+      #endif
+      {set_cnt_type analog kControllerGuitar}}
+   {if $paddrum
+      #ifdef HX_PS3
+      {set_cnt_type dualshock kControllerDrum}
+      #endif
+      #ifdef HX_WII
+      {set_cnt_type wii_remote kControllerDrum}
+      #endif
+      {set_cnt_type analog kControllerDrum}}
+   #ifndef HX_WII
+   {if $force_inst_detec
+      {force_inst_detection}}
+   #endif
+   {set_cnt_mapping}
+
+   {unless {== $highway none} {set $highwaycustomtexture TRUE}}
+
+   {unless {== $spotlight none} {set $spotlightcustomtexture TRUE}}
+
+   {unless {== $streak none} {set $streakcustomtexture TRUE}}
+
+   {profile_mgr set_mic_gain 0 $mic_gain_1} {profile_mgr update_mic_gain 0}
+
+   {profile_mgr set_mic_gain 1 $mic_gain_2} {profile_mgr update_mic_gain 1}
+
+   {profile_mgr set_mic_gain 2 $mic_gain_3} {profile_mgr update_mic_gain 2}
+
+   #ifndef HX_WII
+   {rnd set_sync $vsyncrate}
+   #endif}
 {func
    game_exit_handler
    {if_else
@@ -79,7 +53,6 @@
             {!= $forcescene off}
             {!= $forceminivenue off}
             $ngskillissue
-            
          }
          {script_task
             kTaskSeconds
@@ -87,7 +60,7 @@
             (script
                {$this game_outro}
             )
-         } 
+         }
          kDataUnhandled
       }
       kDataUnhandled
@@ -190,13 +163,55 @@
             #endif
          )
       }
+      #ifdef HX_PS3
+      {set_elem {find $syscfg joypad instrument_mapping dualshock} 1 kControllerVocals}
+      {set_elem {find $syscfg joypad controller_mapping dualshock} 1 joypad}
+      #endif
+      {set_elem {find $syscfg joypad instrument_mapping analog} 1 kControllerVocals}
+      {set_elem {find $syscfg joypad controller_mapping analog} 1 joypad}
+   }
+}
+{func
+   get_author_info
+   {if_else $showauthor
       {do
-         #ifdef HX_PS3
-         {set_elem {find $syscfg joypad instrument_mapping dualshock} 1 kControllerVocals}
-         {set_elem {find $syscfg joypad controller_mapping dualshock} 1 joypad}
+         {set $authorvar FALSE}
+         {set $author_text FALSE}
+         {set $songvar {meta_performer song}}
+         {foreach $entry SONG_AUTHOR_INFO
+            {if {== {elem $entry 0} {basename $songvar}}
+               {set $authorvar
+                  {elem {find $entry author} 1}
+               }
+            }
+         }
+         #ifdef HX_NG
+         {unless $authorvar
+            {set $song_dta_path {sprint {song_mgr song_path {symbol $songvar}} "/../../songs.dta"}}
+            #ifdef HX_PS3 ;hard code some stuff here because ps3 hw is trash. good thing people use a terrible method for adding customs.
+            {unless
+               {file_exists $song_dta_path}
+               {set $song_dta_path {sprint "GD:/dev_hdd0/game/" #ifdef REGION_EUROPE "BLES00532" #else "BLUS30282" #endif "/USRDIR/CCF0001/songs/songs.dta"}}
+            }
+            #endif
+            {if
+               {file_exists $song_dta_path}
+               {foreach $entry {read_file $song_dta_path}
+                  {if {== {elem $entry 0} {basename $songvar}}
+                     {if {find $entry author}
+                        {set $authorvar
+                           {elem {find $entry author} 1}
+                        }
+                     }
+                  }
+               }
+            }
+         }
          #endif
-         {set_elem {find $syscfg joypad instrument_mapping analog} 1 kControllerVocals}
-         {set_elem {find $syscfg joypad controller_mapping analog} 1 joypad}
+         {if $authorvar
+            {set $author_text {sprint " | Author: " $authorvar}}
+         }
       }
+      {set $author_text FALSE}
    }
 }

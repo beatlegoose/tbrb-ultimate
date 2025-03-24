@@ -1,3 +1,5 @@
+(ultiver
+   "DEVBUILD")
 (enable_autoplay
    "Enable autoplay")
 (disable_autoplay
@@ -92,7 +94,8 @@
    "HIGHWAY LENGTH: %d%%")
 (fps_msg
    "VENUE FPS: %dFPS")
-(os_dxsettings "SETTINGS")
+(os_ultisettings
+   "Settings")
 (os_spd "Speed Modifiers")
 (os_mod "Gameplay Modifiers")
 (os_vis "Visual Modifiers")
@@ -185,6 +188,10 @@
    "Camera Shake: ON")
 (os_camerashake0
    "Camera Shake: OFF")
+(os_notriframe1
+   "Disable Co-op Optimizations: ON")
+(os_notriframe0
+   "Disable Co-op Optimizations: OFF")
 (os_nomisounds1
    "Disable Miss Sounds: ON")
 (os_nomisounds0
@@ -201,26 +208,6 @@
    "Auto Kick: ON")
 (os_autokick0
    "Auto Kick: OFF")
-(os_forcecnv1
-   "Force Cavern Venue: ON")
-(os_forcecnv0
-   "Force Cavern Venue: OFF")
-(os_forcesnv1
-   "Force Sullivan Venue: ON")
-(os_forcesnv0
-   "Force Sullivan Venue: OFF")
-(os_forcesav1
-   "Force Shea Venue: ON")
-(os_forcesav0
-   "Force Shea Venue: OFF")
-(os_forcebnv1
-   "Force Budokan Venue: ON")
-(os_forcebnv0
-   "Force Budokan Venue: OFF")
-(os_forcerpv1
-   "Force Rooftop Venue: ON")
-(os_forcerpv0
-   "Force Rooftop Venue: OFF")
 (nice_solo
    "Nice")
 (choke_solo
@@ -301,10 +288,6 @@
    "Guitar Smasher Color")
 (os_drm_smasher_color
    "Drum Smasher Color")
-(os_reset_gem
-   "Reset")
-(os_reset_sus
-   "Reset")
 (os_green_gem
    "Green")
 (os_red_gem
@@ -319,54 +302,18 @@
    "Overdrive")
 (os_kick_gem
    "Kick")
-(os_gtr_gems_1
+(os_slot_1
    "Slot 1")
-(os_gtr_gems_2
+(os_slot_2
    "Slot 2")
-(os_gtr_gems_3
+(os_slot_3
    "Slot 3")
-(os_gtr_gems_4
+(os_slot_4
    "Slot 4")
-(os_gtr_gems_5
+(os_slot_5
    "Slot 5")
-(os_gtr_sus_1
-   "Slot 1")
-(os_gtr_sus_2
-   "Slot 2")
-(os_gtr_sus_3
-   "Slot 3")
-(os_gtr_sus_4
-   "Slot 4")
-(os_gtr_sus_5
-   "Slot 5")
-(os_drm_gems_1
-   "Kick")
-(os_drm_gems_2
-   "Slot 1")
-(os_drm_gems_3
-   "Slot 2")
-(os_drm_gems_4
-   "Slot 3")
-(os_drm_gems_5
-   "Slot 4")
-(os_gtr_smasher_1
-   "Slot 1")
-(os_gtr_smasher_2
-   "Slot 2")
-(os_gtr_smasher_3
-   "Slot 3")
-(os_gtr_smasher_4
-   "Slot 4")
-(os_gtr_smasher_5
-   "Slot 5")
-(os_drm_smasher_1
-   "Slot 1")
-(os_drm_smasher_2
-   "Slot 2")
-(os_drm_smasher_3
-   "Slot 3")
-(os_drm_smasher_4
-   "Slot 4")
+(os_slot_6
+   "Overdrive")
 (os_fcring1
    "Show FC Ring: ON")
 (os_fcring0
@@ -469,10 +416,38 @@
    "Clear Nickname")
 (username_info
    "Please choose a Nickname to be used on the game servers. This Nickname will be associated with your leaderboards and friends.\n\nIf you do not wish to play online you may disable online play. To re-enable online play go to \qPlayer Settings\q in the \qOptions\q menu.\n\nWithout servers you can also set a nickname in\nUltimenu > Extra Mods > Set Nickname")
+(loaded_ulti_settings
+   "Loaded Mod Settings")
 #else
 (mic_sensitivity_save_warning
    " ")
 (converted_settings
    "Converted settings to new format succesfully")
 #endif
+(os_cheats
+   "Cheats")
+(os_hidebeatles1
+   "Hide Beatles: ON")
+(os_hidebeatles0
+   "Hide Beatles: OFF")
+(os_hideinsts1
+   "Hide instruments: ON")
+(os_hideinsts0
+   "Hide instruments: OFF")
+(os_venues1
+   "Force Venue: ON")
+(os_venues0
+   "Force Venue: OFF")
+(os_outfits1
+   "Force Outfits: ON")
+(os_outfits0
+   "Force Outfits: OFF")
+(os_minivenues1
+   "Force Minivenue: ON")
+(os_minivenues0
+   "Force Minivenue: OFF")
+(os_scenes1
+   "Force Scene: ON")
+(os_scenes0
+   "Force Scene: OFF")
 

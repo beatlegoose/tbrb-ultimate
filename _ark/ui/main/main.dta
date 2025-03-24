@@ -22,7 +22,7 @@
          (server_status_changed)}
       {achievements set_allow_achievements TRUE}
       {session clear}
-      {song_offer_provider clear_saved_highlight}
+      ;{song_offer_provider clear_saved_highlight}
       {story clear_performer}
       #ifdef HX_WII
       {$this free_wii_remotes}
@@ -30,7 +30,19 @@
       {gamemode set_mode init}
       {$this update_motd}
       {meta music_start}
-      {set_cnt_mapping}) ;didn't work setting in init
+      ;we probably should be doing more of this in the lbl but i only just learned how to make/edit them
+      {ultiver.lbl set text_size 2}
+      {ultiver.lbl set text_token ultiver}
+      {if_else
+         {== {rnd aspect} kWidescreenAspect}
+         {ultiver.lbl set_local_pos -36 0 20}
+         {ultiver.lbl set_local_pos -25.5 0 20}
+      }
+      {ultiver.lbl set_showing TRUE}
+      #ifdef HX_WII
+      {unless $settings_loaded
+         {ulti_settings_reader}}
+      #endif)
    (exit
       {platform_mgr remove_sink $this connection_status_changed}
       {server remove_sink $this server_status_changed})
@@ -282,7 +294,6 @@
          ;   {ui push_screen album_art_info_screen})
          (overshell
             {passive_messages_panel queue_message overshell_info}
-            {set $modifier_exit {ui current_screen}}
             {ui push_screen overshell_main_screen})
          ;(toggle_graphics
          ;    {rnd toggle_all_postprocs})
